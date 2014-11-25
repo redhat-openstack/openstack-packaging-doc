@@ -249,6 +249,94 @@ On top of that, `rdopkg` also serves as {rdo}[*RDO*] update/CI frontend.
 Use of `rdopkg` is not strictly required, but using it avoids a number
 of repetitive and error prone processes involving several underlying tools.
 
+[[master-pkg-guide]]
+Master Packaging Guide
+----------------------
+
+In order to build an RPM with the master packaging you'll need to install
+delorean, following the steps below.
+
+Install dependencies
+~~~~~~~~~~~~~~~~~~~~
+[source,bash]
+git clone https://github.com/openstack-packages/delorean.git
+cd delorean
+git clone https://github.com/redhat-openstack/rdoinfo.git
+yum install docker-io git createrepo python-virtualenv git-hg
+virtualenv ../delorean-venv
+. ../delorean-venv/bin/activate
+pip install -r requirements.txt
+python setup.py develop
+systemctl start docker
+
+Prepare a docker "builder" image
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[source,bash]
+ ./scripts/create_build_image.sh
+
+Run Delorean
+~~~~~~~~~~~~
+Run delorean for the package you are trying to build.
+[source,bash]
+export PYTHONPATH=$PYTHONPATH:rdoinfo
+delorean --config-file projects.ini --info-file rdoinfo/rdo.yml --local --package-name openstack-horizon
+
+This will clone the packaging for the project your interested in into
+data/openstack-horizon_spec, you can now change this packaging and rerun the
+delorean command in test your changes.
+
+If you have locally changed the packaging make sure to include --dev in the
+command line. This switches delorean into "dev mode" which causes it to
+preserve local changes to your packaging between runs so you can iterate on
+spec changes. It will also cause the most current public master repository to
+be installed in your build image(as some of its contents will be needed for
+dependencies) so that the packager doesn't have to build the entire set of
+packages.
+
+The output from delorean is a repository containing the packages you just built
+along with the most recent successfully built version of each package. To find
+the most recent repository follow the symbolic link ./data/repos/current
+
+Submitting changes to gerrit
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Once you are happy that you have your changes ready to be reviewed, create a
+git commit with an appropriate comment, add a git remote pointing to gerrit
+and then submit your patch
+[source,bash]
+git commit -p
+git remote add gerrit ssh://<username>@review.gerrithub.io:29418/openstack-packages/<package-name>
+git review f20-master
+
+Browsing gerrit for reviews
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+To look at all open patches for the upstream packaging simply use the following link
+https://review.gerrithub.io/#/q/status:open+project:^openstack-packages/.*,n,z
+
+Differences between master and rawhide packaging
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+There are a number of expected differences between the master packaging and
+the packaging in rawhide
+
+* The delorean packaging has had Version: and Release: tags are both set to XXX
+  in the delorean packaging as we take both of these from the tags set on the
+  git repositories
+
+* Because we are packaging master, patches aren't backported into the delorean
+  packaging
+
+* All of the master specs contain a reference to %{upstream_version} in the
+  %setup macro, this is because the subdirectory contained in the source tarball
+  contains both the version and release, this is being passed into rpmbuild
+  and should not be used in the fedora packaging, in most cases it can just be
+  replaced with %{version}
+
+* The files "sources" and ".gitignore" have been truncated in the master packaging
+
+To Assist in identifing difference the report being output by the production
+delorean includes a spec delta link showing a diff between the 2 repositories
+http://209.132.178.33/repos/report.html
+
+
 [[rdo-pkg-guide]]
 RDO Packaging Guide
 -------------------
@@ -261,6 +349,9 @@ OpenStack project such as `nova`, `neutron`, `heat` etc.
 
 Note that some projects such as client libraries follow slightly different
 naming conventions.
+
+Also Note that any packaging updates going into RDO should first be submitted
+to the master packaging (described above) then cherry picked into rawhide.
 
 
 [[prereqs]]
