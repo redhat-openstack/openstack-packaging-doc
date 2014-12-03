@@ -1,0 +1,592 @@
+= RDO Openstack Packaging
+Author: Jakub Ružička <jruzicka at redhat dot com>
+:toc2:
+:icons:
+:rdo: https://openstack.redhat.com
+:rdorepo: http://rdo.fedorapeople.org
+:f21-juno-repo: https://repos.fedorapeople.org/repos/openstack/openstack-juno/fedora-21/
+:f20-icehouse-repo: https://repos.fedorapeople.org/repos/openstack/openstack-icehouse/fedora-20/
+:f19-havana-repo: https://repos.fedorapeople.org/repos/openstack/openstack-havana/fedora-19/
+:redhat: http://www.redhat.com
+:redhat-openstack-org: https://github.com/redhat-openstack/
+:rhosp: http://www.redhat.com/openstack
+
+Introduction
+------------
+
+Future
+
+This document attempts to be the definitive source of information about
+{rdo}[*RDO*] OpenStack packaging for developers and packagers.
+
+It's written in `asciidoc` and you can edit it using your favorite text
+editor:
+
+[source,bash]
+$> git clone https://github.com/redhat-openstack/openstack-packaging-doc.git
+# Edit rdo-packaging.txt
+# `make` to build HTML, `autobuild.sh` to autobuild on file changes
+$> git commit -a
+# Send Pull Request on GitHub!
+
+[IMPORTANT]
+This is unfinished *Work In Progress*
+
+
+RDO - a community distribution of OpenStack
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+{rdo}[*RDO*] is a {rdo}[community] distribution of OpenStack which
+strives to provide the latest upstream code packaged for Red Hat
+Enterprise Linux, CentOS and Fedora.
+
+Note that {redhat}[*Red Hat*] also provides {rhosp}[Red Hat Enterprise
+Linux OpenStack Platform] (*{rhosp}[RHEL-OSP]*) which is based on {rdo}[*RDO*].
+
+Relation to upstream
+^^^^^^^^^^^^^^^^^^^^
+
+{rdo}[*RDO*] is a distribution of upstream code, not a fork. We strive
+to keep {rdo}[*RDO*] as close to upstream as possible with the minimum
+number of downstream patches.
+
+
+Open Governance
+^^^^^^^^^^^^^^^
+
+When Red Hat launched the RDO community in April 2013, we chose to
+focus our energies on making an OpenStack distribution available and
+encouraging a self-supporting community of users around the
+distribution, related tools, and supporting documentation. With this
+community now established, it is clear we need to prioritize opening
+up the RDO development process. Or, to put it another way, it is time
+to begin opening up the technical governance of RDO.
+
+This process will be discussed and fleshed out in more detail on
+https://www.redhat.com/mailman/listinfo/rdo-list[rdo-list@redhat.com].
+
+Packaging workflow
+~~~~~~~~~~~~~~~~~~
+
+Currently all {rdo}[*RDO*] packaging resources are maintained in the Fedora
+<<dist-git,dist-git>> repositories. This includes support for all
+Fedora distros of course, but currently also caters for EL6 and EL7
+distros and derivatives. In future the EL resources may be separated
+out under the CentOS OpenStack SIG umbrella, but for now Fedora is the
+primary `git` source.
+
+Currently there is a 1:1 mapping between Fedora and OpenStack releases.
+I.E. the OpenStack package versions that are provided through the
+official Fedora repositories are:
+
+ * f22 / rawhide / master = Juno
+ * f21 = Icehouse
+ * f20 = Havana
+
+{rdo}[RDO] also provides one release ahead for Fedora. There are
+separate {rdorepo}[RDO repositories] that provide more recent
+OpenStack packages on the current stable version of Fedora.
+
+ * {f21-juno-repo}[Juno for f21]
+ * {f20-icehouse-repo}[Icehouse for f20]
+ * {f19-havana-repo}[Havana for f19]
+
+The EL6 and EL7 packages are only provided through the {rdo}[*RDO*]
+repositories.
+
+Historically, there were separate `el6-icehouse`, `el6-havana`, etc.
+branches in Fedora <<dist-git,dist-git>> but Fedora and EL converged
+over time thanks to the release of EL7 and also due to the extra
+flexibility that the separate RDO repos provide by allowing to carry
+updated packages that may not be compatible with all of EPEL,
+leveraging the fact that EL deployers almost universally dedicate
+systems to OpenStack services. So going forward builds for all
+platforms should work from the same `.spec` file. I.E. we only use the
+Fedora branches corresponding to each OpenStack release (`master`,
+`f21`, `f20`, ...) and EL6 and EL7 builds are done from those branches
+in https://copr.fedoraproject.org/coprs/jruzicka/[copr], as detailed
+below in <<rdo-pkg-guide,RDO Packaging Guide>>.
+
+
+[[dist-git]]
+dist-git - where the .spec file lives
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+*dist-git* is a git repository which contains `.spec` file used for building
+a RPM package. It also contains other files needed for building source RPM
+such as patches to apply, init scripts etc.
+
+RDO packages currently use
+http://pkgs.fedoraproject.org/cgit/openstack-nova.git/[Fedora dist-git] and
+`fedpkg` is used to obtain it, for example:
+
+[source,bash]
+$> fedpkg clone openstack-nova
+$> cd openstack-nova
+$> git remote -v
+origin    ssh://jruzicka@pkgs.fedoraproject.org/openstack-nova (fetch)
+origin    ssh://jruzicka@pkgs.fedoraproject.org/openstack-nova (push)
+
+You can inspect the package history using `git`:
+
+[source,bash]
+$> git log --oneline
+e70e895 Update to upstream 2014.2.b2
+6d4b2ae Updated patches from master-patches
+4113b4f maint: modernize the systemd build deps
+9bec9a7 Update to latest stable/icehouse 2014.1.1
+5963f2d - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
+d398372 Increase release number
+e203465 Remove qpid settings from dist conf
+
+[[patches-branch]]
+Patches branch
+~~~~~~~~~~~~~~
+
+Because we rebase and backport often, manual management of patch files in
+<<dist-git,dist-git>> would be _unbearable_. That's why each dist-git branch
+has an associated **patches branch** which contains upstream git tree with
+extra downstream patches on top. A dist-git can be updated by `rdopkg` to
+include patches from *patches branch* so maintaining RPM patches is a matter
+of `git` magic on patches branch - rebase on upstream tag, cherry-pick
+patches, etc.
+
+{rdo}[*RDO*] patches branches live at
+{redhat-openstack-org}[github.com/redhat-openstack] and follow few
+conventions:
+
+Each patches branch:
+
+* ends with `-patches` suffix by convention
+* contains upstream project `git` tree up to a certain commit called
+  _patches base_, usually a version tag like `2014.2`
+* has downstream patches rebased on top _patches base_
+
+
+patches branch workflow
+^^^^^^^^^^^^^^^^^^^^^^^
+....
+     +------------------------+
+     |        upstream        |
+     |  github.com/openstack  |
+     +------------------------+
+                 |
+      git rebase | git cherry-pick
+                 V
+  +-------------------------------+
+  |       patches branch          |
+  |  github.com/redhat-openstack  |
+  +-------------------------------+
+                 |
+                 | rdopkg update-patches
+                 V
+     +--------------------------+
+     |        dist-git          |
+     |  pkgs.fedoraproject.org  |
+     +--------------------------+
+....
+
+
+[[release-overview]]
+Releases & dists overview
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* **Juno** (not yet released/public)
+** _Fedora 22_
+*** available from official Fedora repos
+*** built through `koji` (currently `master` branch)
+** `fedora-21`
+*** RDO repo
+*** Fedora 22 (`master`) builds from `koji` reused
+** `fedora-20`
+*** RDO repo
+*** symlink to `fedora-21`
+** `epel-7`
+*** RDO repo
+*** built in https://copr.fedoraproject.org/coprs/jruzicka/rdo-juno-epel-7/[copr]
+
+* **Icehouse** (latest release)
+** _Fedora 21_
+*** available from official Fedora 21 repos
+*** built through `koji` (`f21` branch)
+** `fedora-20`
+*** RDO repo
+*** Fedora 21 builds from `koji` reused
+** `epel-7`
+*** RDO repo
+*** built in https://copr.fedoraproject.org/coprs/jruzicka/rdo-icehouse-epel-7/[copr]
+** `epel-6`
+*** RDO repo
+*** built in https://copr.fedoraproject.org/coprs/jruzicka/rdo-icehouse-epel-6/[copr]
+
+* **Havana** (https://www.redhat.com/archives/rdo-list/2014-July/msg00072.html[EOL] mid September)
+** _Fedora 20_
+*** available from official Fedora 20 repos
+*** built through `koji` (`f20` branch)
+** `fedora-19`
+*** RDO repo
+*** Fedora 20 builds from `koji` reused
+** `epel-6`
+*** RDO repo
+*** built in `koji` from `el6-havana` branch with `--dist el6`
+
+
+[[rdopkg]]
+rdopkg
+~~~~~~
+
+`rdopkg` is a command line tool that automates many operations on RDO packages
+including:
+
+ * rebases to new version
+ * introducing patches
+ * modifying .spec file: bumping versions, managing patches, writing
+   changelog, producing meaningful commit messages, ...
+ * build package in copr build system
+
+On top of that, `rdopkg` also serves as {rdo}[*RDO*] update/CI frontend.
+
+Use of `rdopkg` is not strictly required, but using it avoids a number
+of repetitive and error prone processes involving several underlying tools.
+
+[[rdo-pkg-guide]]
+RDO Packaging Guide
+-------------------
+
+This guide attempts to describe entire process of packaging new version of
+an OpenStack package and getting it into {rdo}[*RDO*].
+
+`$PROJECT` variable is used throughout the guide. Substitute it with your
+OpenStack project such as `nova`, `neutron`, `heat` etc.
+
+Note that some projects such as client libraries follow slightly different
+naming conventions.
+
+
+[[prereqs]]
+Prerequisites
+~~~~~~~~~~~~~
+
+* You need to have
+  *Fedora account* footnote:[also known as FAS account - https://admin.fedoraproject.org/accounts/[Fedora Account System]]
+  and be *Fedora packager* in order to interact with Fedora
+  build system (https://koji.fedoraproject.org/koji/[koji])
+  and update system (https://admin.fedoraproject.org/updates[bodhi]). +
+  https://fedoraproject.org/wiki/Join_the_package_collection_maintainers[Join the package collection maintainers]
+  if you haven't yet!
+
+* TBD Gerrit account for submitting RDO updates
+
+Permissions You'll Need
+^^^^^^^^^^^^^^^^^^^^^^^
+
+* *Fedora <<dist-git,dist-git>>*: visit
+  https://admin.fedoraproject.org/pkgdb/package/openstack-nova/[pkgdb] for
+  your package, `+ Request Commit Access` and optionally poke Main Contact or
+  Package Administrator of your choice.
+
+* *<<patches-branch,patches branches>> @ `github.com/redhat-openstack`*: request
+  permissions for https://github.com/redhat-openstack/nova[your project] from a
+  https://github.com/orgs/redhat-openstack/teams/owners[redhat-openstack
+  admin]. Note that you're looking for `/$PROJECT`, not
+  `/openstack-$PROJECT`. You can tell you're in the right repo when
+  there are branches with `-patches` suffix.
+
+* *copr build system*: Request build permissions in relevant
+  https://copr.fedoraproject.org/coprs/jruzicka[jruzicka's coprs] listed
+  below. Check the `Is Builder` box and hit `Update` for each copr. Poke
+  `jruzicka` to accelerate the approval.
+
+** Juno copr:
+*** https://copr.fedoraproject.org/coprs/jruzicka/rdo-juno-epel-7/permissions/[rdo-juno-epel-7]
+
+** Icehouse coprs:
+*** https://copr.fedoraproject.org/coprs/jruzicka/rdo-icehouse-epel-6/permissions/[rdo-icehouse-epel-6]
+*** https://copr.fedoraproject.org/coprs/jruzicka/rdo-icehouse-epel-7/permissions/[rdo-icehouse-epel-7]
+
+
+Software
+^^^^^^^^
+
+Fedora packaging tools
+++++++++++++++++++++++
+
+`fedora-packager` package available in standard Fedora repositories pulls in
+tools for packaging and interacting with Fedora infrastructure including
+`fedpkg` and https://koji.fedoraproject.org/koji/[koji],
+https://admin.fedoraproject.org/updates[bodhi], and
+https://admin.fedoraproject.org/pkgdb/[pkgdb] clients.
+
+[source,bash]
+$> yum install fedora-packager
+
+You need to setup your FAS certificate to communicate with Fedora systems:
+
+[source,bash]
+$> fedora-packager-install
+
+
+`rdopkg`
+++++++++
+
+First, get yum repository for your distribution:
+
+Fedora:
+
+[source,bash]
+$> curl -o /etc/yum.repos.d/rdopkg.repo http://FIXME.rdoproject.org/rdopkg-fedora.repo
+
+RHEL >= 7:
+
+[source,bash]
+$> curl -o /etc/yum.repos.d/rdopkg.repo http://FIXME.rdoproject.org/rdopkg-rhel.repo
+
+and then
+
+[source,bash]
+$> yum install rdopkg
+
+`rdopkg coprbuild`
+++++++++++++++++++
+
+In order to use `rdopkg coprbuild` action to easily build packages in
+https://copr.fedoraproject.org/coprs/jruzicka[jruzicka's coprs], you need to
+save your copr API token into `~/.config/copr` as described in
+http://copr.fedoraproject.org/api.
+
+Although `rdopkg` shares this config with `copr-cli` (you can use `copr-cli`
+to validate it), `rdopkg` has it's own copr client implementation
+footnote:[`copr-cli` was not reusable at the time of writing] and doesn't
+require `copr-cli` to
+work.
+
+
+Initial repository setup
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+With all the <<prereqs,prerequisites>> met, it's time to clone the package
+<<dist-git,dist-git>> using `fedpkg`.
+
+[source,bash]
+$> fedpkg clone openstack-$PROJECT
+$> cd openstack-$PROJECT
+
+You also need to be able to access to your project's <<patches-branch,patches
+branches>>. +
+`rdopkg` expects the `git` remote containing <<patches-branch,patches
+branches>> to be named `redhat-openstack`:
+
+[source,bash]
+git remote add -f redhat-openstack git@github.com:redhat-openstack/$PROJECT.git
+
+Finally, you need a remote with upstream source in order to cherry-pick
+upstream patches and rebase <<patches-branch,patches branch>> on new
+version:
+
+[source,bash]
+$> git remote add -f openstack git://github.com/openstack/$PROJECT.git
+
+
+Modifying the package
+~~~~~~~~~~~~~~~~~~~~~
+
+The package metadata is stored in `.spec` file which is found in top
+directory of <<dist-git,dist-git>>, usually `openstack-$PROJECT.spec`. Every
+change to a package requires at least a change in `.spec` file and possibly
+other <<dist-git,dist-git>> files (add/remove patches, init scripts, ...).
+
+Every time you do a new build, you need to:
+
+* Bump `Release` (when source tarball stays the same) or change `Version`  and
+  reset `Release` (on update to new upstream version/tarball) in `.spec` file.
+* Provide useful `%changelog` entry at the end of `.spec` file describing your
+  change.
+* Commit the <<dist-git,dist-git>> changes with meaningful commit message.
+
+Following sections provide examples for most common packaging scenarios.
+
+Simple `.spec` fix
+^^^^^^^^^^^^^^^^^^
+
+The simplest kind of change that doesn't introduce/remove patches or
+different source tarball.
+
+* Make required changes.
+* Bump `Release`.
+* Provide useful `%changelog` entry describing your change.
+* Commit the <<dist-git,dist-git>> changes with meaningful commit message.
+
+Although this change is simple, `rdopkg fix` can still make some string
+manipulation for you. In following example, I add a new dependency to `nova`
+package:
+
+[source,bash]
+$> cd openstack-nova
+$> rdopkg fix
+
+Action required: Edit .spec file as needed and describe changes in
+changelog. Once done, run `rdopkg -c` to continue:
+
+[source,bash]
+$> vim openstack-nova.spec
+# Add Requires line and describe the change in %changelog
+$> rdopkg -c
+
+After this, `rdopkg` generates new commit from the %changelog entry you
+provided and displays the diff:
+
+    Name:             openstack-nova
+    Version:          2014.2
+   -Release:          0.1.b2%{?dist}
+   +Release:          0.2.b2%{?dist}
+    Summary:          OpenStack Compute (nova)
+    
+    ...
+    
+   +Requires:         banana
+    Requires:         python-nova = %{version}-%{release}
+    
+    ...
+
+    %changelog
+   +* Tue Aug 12 2014 Jakub Ruzicka <jruzicka@redhat.com> 2014.2-0.2.b2
+   +- Require banana package for the lulz
+   +
+    * Sun Aug 03 2014  Vladan Popovic <vpopovic@redhat.com> 2014.2-0.1.b2
+    - Update to upstream 2014.2.b2
+    - openstack-nova-compute should depend on libvirt-daemon-kvm, not libvirt - rhbz#996715
+
+
+Introducing/removing patches
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+When new patches are introduced to <<patches-branch,patches branch>> (usually
+by `git review`), <<dist-git,dist-git>> must be updated with new patches files
+and `.spec` file patch definitions.
+
+`rdopkg` provides:
+
+* `rdopkg update-patches`: low-level action that only updates `.spec` file
+  from local <<patches-branch,patches branch>>
+* `rdopkg patch`: high-level action on top of `update-patches` with extra
+  features (reset local patches branch from remote, bump release, generate
+  changelog entry)
+
+See
+http://FIXME.rdoproject.org/rdopkg/rdopkg-adv-patch.7.html[man
+rdopkg-adv-patch] for an example of using `rdopkg patch`.
+
+NOTE: TODO
+
+Rebasing to new version
+^^^^^^^^^^^^^^^^^^^^^^^
+
+See
+http://FIXME.rdoproject.org/rdopkg/rdopkg-adv-new-version.7.html[man
+rdopkg-adv-new-version] for an example of using `rdopkg new-version` to update
+a package to a new upstream version.
+
+NOTE: TODO
+
+
+Building the package
+~~~~~~~~~~~~~~~~~~~~
+
+After you have modified <<dist-git,dist-git>> to your liking, it's time to build.
+You need to be on the dist-git branch of respective Fedora release such as
+`master` or `f21`, see <<release-overview>>.
+
+
+local build with mock
+^^^^^^^^^^^^^^^^^^^^^
+
+You can build the Fedora package locally using `mock` to ensure it builds
+and/or test it:
+
+[source,bash]
+$> fedpkg mockbuild
+
+Find the results in `./results_$PACKAGE/$VERSION/$RELEASE` directory. The
+most interesting file is `build.log`.
+
+You can also test EL builds using `mock`, but you may be missing certain build
+requirements only available at {rdo}[*RDO*]
+https://copr.fedoraproject.org/coprs/jruzicka/[coprs]:
+
+[source,bash]
+$> fedpkg --dist el7 mockbuild --root epel-7-x86_64
+
+
+copr build of EL package
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+Beginning with the Icehouse release, EL packages are built in
+https://copr.fedoraproject.org/coprs/jruzicka/rdo-juno-epel-7/[copr] build
+system due to constraints of Fedora <<dist-git,dist-git>>.
+
+Because a push to Fedora dist-git is irreversible, building in `copr` first is
+recommended. You may find some EL specific problems and solve them without the need
+of new package release.
+
+The following command creates a source RPM for selected distro using
+`fedpkg srpm`, uploads it to your `fedorapeople.org` space and submits it to
+be built in `copr`:
+
+[source,bash]
+$> rdopkg coprbuild -d epel-7 -f up.yml
+
+Also, `-f up.yml` instructs `rdopkg` to dump the build information
+into `up.yml` file that can be used later to submit an {rdo}[*RDO*]
+update using `rdopkg update -f up.yml`.
+
+See a full example of using `rdopkg coprbuild` in
+http://FIXME.rdoproject.org/rdopkg/rdopkg-adv-coprbuild.7.html[man rdopkg-adv-coprbuild].
+
+
+koji build of Fedora package
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Push your Fedora <<dist-git,dist-git>> changes and build using `fedpkg`:
+
+[source,bash]
+$> git push
+$> fedpkg build
+
+
+Submitting an update
+~~~~~~~~~~~~~~~~~~~~
+
+After your builds finished, you need to submit the package(s) for
+update in {rdo}[*RDO*] using:
+
+[source,bash]
+$> rdopkg update
+
+By default, `rdopkg update` tries to autodetect which package you're trying to
+update and opens an YAML update file template in text editor. You need to
+specify all builds that should be updated at once in the update file.
+
+See **ACTION: update** in
+
+link:$$http://FIXME.rdoproject.org/rdopkg/rdopkg.1.html#ACTIONS$$[man rdopkg]
+and also
+link:$$http://FIXME.rdoproject.org/rdopkg/rdopkg-adv-coprbuild.7.html$$[man rdopkg-adv-coprbuild]
+for an example of how to do `copr` and `koji` builds and prepare and submit the
+update file non-interactively.
+
+`rdopkg update` submits the update through `git review` and prints the URL to
+gerrit. The update needs to pass CI in order to be merged and later pushed to
+{rdo}[*RDO*] repositories.
+
+To track your update, use:
+
+[source, bash]
+$> rdopkg list-updates -r
+
+Fedora update
+^^^^^^^^^^^^^
+
+[source,bash]
+$> fedpkg update
+
+NOTE: TODO
