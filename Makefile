@@ -1,8 +1,11 @@
 DOCS=rdo-packaging.html
 
-all: doc
+all: clean doc
 
-doc: $(DOCS)
+doc: clean $(DOCS)
 
 %.html: %.txt
 	asciidoc -b html5 -a icons -a toc2 -a theme=flask $<
+
+clean:
+	rm -fv $(DOCS)
