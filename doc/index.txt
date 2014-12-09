@@ -1,0 +1,7 @@
+RDO Packaging Documentation
+===========================
+
+Following documents are available:
+
+link:rdo-packaging.html[RDO packaging guide]
+--------------------------------------------

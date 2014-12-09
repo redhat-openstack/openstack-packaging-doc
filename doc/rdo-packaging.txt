@@ -14,8 +14,6 @@ Author: Jakub Ružička <jruzicka at redhat dot com>
 Introduction
 ------------
 
-Future
-
 This document attempts to be the definitive source of information about
 {rdo}[*RDO*] OpenStack packaging for developers and packagers.
 
@@ -24,7 +22,7 @@ editor:
 
 [source,bash]
 $> git clone https://github.com/redhat-openstack/openstack-packaging-doc.git
-# Edit rdo-packaging.txt
+# Edit doc/rdo-packaging.txt
 # `make` to build HTML, `autobuild.sh` to autobuild on file changes
 $> git commit -a
 # Send Pull Request on GitHub!
