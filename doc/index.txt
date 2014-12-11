@@ -1,7 +1,56 @@
-RDO Packaging Documentation
-===========================
+= RDO Packaging Documentation
+:toc2:
+:icons:
+:rdo: https://openstack.redhat.com
+:rhosp: http://www.redhat.com/openstack
+:redhat: http://www.redhat.com
 
-Following documents are available:
+{rdo}[*RDO*] is a {rdo}[community] distribution of OpenStack which
+strives to provide the latest upstream code packaged for Red Hat
+Enterprise Linux, CentOS and Fedora.
 
-link:rdo-packaging.html[RDO packaging guide]
---------------------------------------------
+NOTE: {redhat}[*Red Hat*] also provides {rhosp}[Red Hat Enterprise
+Linux OpenStack Platform] (*{rhosp}[RHEL-OSP]*) which is based on
+{rdo}[*RDO*].
+
+== Relation to upstream
+
+{rdo}[*RDO*] is a distribution of upstream code, not a fork. We strive
+to keep {rdo}[*RDO*] as close to upstream as possible with the minimum
+number of downstream patches.
+
+== Open Governance
+
+When Red Hat launched the RDO commnity in April 2013, we chose to
+focus our energies on making an OpenStack distribution available and
+encouraging a self-supporting community of users around the
+distribution, related tools, and supporting documentation. With this
+community now established, it is clear we need to prioritize opening
+up the RDO development process. Or, to put it another way, it is time
+to begin opening up the technical governance of RDO.
+
+This process will be discussed and fleshed out in more detail on
+https://www.redhat.com/mailman/listinfo/rdo-list[rdo-list@redhat.com].
+
+== Documentation
+
+[cols="1*<.<1d",options="header"]
+|===
+| Packagers Guides
+
+a|* link:rdo-packaging.html[*RDO Packaging Guide*] +
+* *Packstack and Openstack Puppet Modules Packaging Guide* (Available soon) +
+
+|===
+
+
+== Discussion Forums
+
+* https://plus.google.com/communities/110409030763231732154[RDO Google Plus group]
+* RDO Mailing Lists
+** *rdo-list*: https://www.redhat.com/mailman/listinfo/rdo-list[*subscribe*], https://www.redhat.com/archives/rdo-list/[*archives*]
+** *rdo-newsletter*: https://www.redhat.com/mailman/listinfo/rdo-newsletter[*subscribe*], https://www.redhat.com/archives/rdo-newsletter/[*archives*]
+* http://openstack.redhat.com/[RDO Community Site]
+* Use http://webchat.freenode.net/?randomnick=1&channels=rdo&uio=d4[#rdo on the irc.freenode.net IRC server] for questions about the service
+* Follow us on twitter https://twitter.com/RDOcommunity[@RDOcommunity]
+
