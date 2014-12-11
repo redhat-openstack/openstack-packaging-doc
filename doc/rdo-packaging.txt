@@ -1,7 +1,8 @@
 = RDO Openstack Packaging
 Author: Jakub Ružička <jruzicka at redhat dot com>
+:data-uri:
 :toc2:
-:icons:
+:source-highlighter: highlightjs
 :rdo: https://openstack.redhat.com
 :rdorepo: http://rdo.fedorapeople.org
 :f21-juno-repo: https://repos.fedorapeople.org/repos/openstack/openstack-juno/fedora-21/
