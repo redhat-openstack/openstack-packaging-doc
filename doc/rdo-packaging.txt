@@ -2,6 +2,9 @@
 Author: Jakub Ružička <jruzicka at redhat dot com>
 :data-uri:
 :toc2:
+:icons:
+:iconsdir: ../images/icons/
+:numbered:
 :source-highlighter: highlightjs
 :rdo: https://openstack.redhat.com
 :rdorepo: http://rdo.fedorapeople.org
