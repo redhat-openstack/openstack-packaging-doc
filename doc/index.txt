@@ -1,6 +1,9 @@
 = RDO Packaging Documentation
+:data-uri:
 :toc2:
 :icons:
+:iconsdir: ../images/icons/
+:numbered:
 :rdo: https://openstack.redhat.com
 :rhosp: http://www.redhat.com/openstack
 :redhat: http://www.redhat.com
