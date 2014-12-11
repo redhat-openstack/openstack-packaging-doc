@@ -1,7 +1,8 @@
 = RDO Openstack Packaging
 Author: Jakub Ružička <jruzicka at redhat dot com>
+:data-uri:
 :toc2:
-:icons:
+:source-highlighter: highlightjs
 :rdo: https://openstack.redhat.com
 :rdorepo: http://rdo.fedorapeople.org
 :f21-juno-repo: https://repos.fedorapeople.org/repos/openstack/openstack-juno/fedora-21/
@@ -21,11 +22,13 @@ It's written in `asciidoc` and you can edit it using your favorite text
 editor:
 
 [source,bash]
+----
 $> git clone https://github.com/redhat-openstack/openstack-packaging-doc.git
 # Edit doc/rdo-packaging.txt
 # `make` to build HTML, `autobuild.sh` to autobuild on file changes
 $> git commit -a
 # Send Pull Request on GitHub!
+----
 
 [IMPORTANT]
 This is unfinished *Work In Progress*
@@ -119,11 +122,13 @@ http://pkgs.fedoraproject.org/cgit/openstack-nova.git/[Fedora dist-git] and
 `fedpkg` is used to obtain it, for example:
 
 [source,bash]
+----
 $> fedpkg clone openstack-nova
 $> cd openstack-nova
 $> git remote -v
 origin    ssh://jruzicka@pkgs.fedoraproject.org/openstack-nova (fetch)
 origin    ssh://jruzicka@pkgs.fedoraproject.org/openstack-nova (push)
+----
 
 You can inspect the package history using `git`:
 
