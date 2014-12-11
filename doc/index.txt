@@ -1,5 +1,4 @@
 = RDO Packaging Documentation
-:data-uri:
 :toc2:
 :icons:
 :iconsdir: ../images/icons/

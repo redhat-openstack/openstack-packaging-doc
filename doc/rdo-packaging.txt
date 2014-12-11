@@ -1,6 +1,5 @@
 = RDO Openstack Packaging
 Author: Jakub Ružička <jruzicka at redhat dot com>
-:data-uri:
 :toc2:
 :icons:
 :iconsdir: ../images/icons/
