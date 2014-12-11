@@ -19,7 +19,9 @@ for more instructions on contributing.
 
 ## Rendering
 
-You need `asciidoc` to render HTML pages.
+You need `asciidoctor` to render HTML pages.
+
+    yum -y install rubygem-asciidoctor.noarch
 
 Running
 
@@ -28,7 +30,7 @@ Running
 will produce output in `html` directory
 
 You can also use
-    
+
     ./autobuild.sh
 
 script to automatically rebuild docs on `doc/*.txt` changes.
