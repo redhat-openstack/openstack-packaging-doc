@@ -1384,7 +1384,7 @@ code { font-family: 'Source Code Pro'; }
 
 .admonitionblock td.icon .icon-tip:before { color: #cc6; text-shadow: none; }
 
-#footer { background: #7c0b0b; background-image: url("../images/rdo-logo-white.png"); background-position: right center; background-repeat: no-repeat; }
+#footer { background: #7c0b0b; background-image: url("images/rdo-logo-white.png"); background-position: right center; background-repeat: no-repeat; }
 
 /* Alignment Styles */
 .halign-left { text-align: left; }
