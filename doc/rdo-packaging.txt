@@ -1,8 +1,6 @@
 = RDO Openstack Packaging
-Author: Jakub Ružička <jruzicka at redhat dot com>
+:author: Jakub Ružička <jruzicka at redhat dot com>
 :toc2:
-:icons:
-:iconsdir: ../images/icons/
 :numbered:
 :source-highlighter: highlightjs
 :rdo: https://openstack.redhat.com
@@ -14,8 +12,7 @@ Author: Jakub Ružička <jruzicka at redhat dot com>
 :redhat-openstack-org: https://github.com/redhat-openstack/
 :rhosp: http://www.redhat.com/openstack
 
-Introduction
-------------
+== Introduction
 
 This document attempts to be the definitive source of information about
 {rdo}[*RDO*] OpenStack packaging for developers and packagers.
@@ -24,17 +21,18 @@ It's written in `asciidoc` and you can edit it using your favorite text
 editor:
 
 [source,bash]
+----
 $> git clone https://github.com/redhat-openstack/openstack-packaging-doc.git
 # Edit doc/rdo-packaging.txt
 # `make` to build HTML, `autobuild.sh` to autobuild on file changes
 $> git commit -a
 # Send Pull Request on GitHub!
+----
 
 [IMPORTANT]
 This is unfinished *Work In Progress*
 
-Packaging workflow
-~~~~~~~~~~~~~~~~~~
+=== Packaging workflow
 
 Currently all {rdo}[*RDO*] packaging resources are maintained in the Fedora
 <<dist-git,dist-git>> repositories. This includes support for all
@@ -77,8 +75,7 @@ below in <<rdo-pkg-guide,RDO Packaging Guide>>.
 
 
 [[dist-git]]
-dist-git - where the .spec file lives
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== dist-git - where the .spec file lives
 
 *dist-git* is a git repository which contains `.spec` file used for building
 a RPM package. It also contains other files needed for building source RPM
@@ -89,15 +86,18 @@ http://pkgs.fedoraproject.org/cgit/openstack-nova.git/[Fedora dist-git] and
 `fedpkg` is used to obtain it, for example:
 
 [source,bash]
+----
 $> fedpkg clone openstack-nova
 $> cd openstack-nova
 $> git remote -v
 origin    ssh://jruzicka@pkgs.fedoraproject.org/openstack-nova (fetch)
 origin    ssh://jruzicka@pkgs.fedoraproject.org/openstack-nova (push)
+----
 
 You can inspect the package history using `git`:
 
 [source,bash]
+----
 $> git log --oneline
 e70e895 Update to upstream 2014.2.b2
 6d4b2ae Updated patches from master-patches
@@ -106,10 +106,10 @@ e70e895 Update to upstream 2014.2.b2
 5963f2d - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
 d398372 Increase release number
 e203465 Remove qpid settings from dist conf
+----
 
 [[patches-branch]]
-Patches branch
-~~~~~~~~~~~~~~
+=== Patches branch
 
 Because we rebase and backport often, manual management of patch files in
 <<dist-git,dist-git>> would be _unbearable_. That's why each dist-git branch
@@ -131,8 +131,8 @@ Each patches branch:
 * has downstream patches rebased on top _patches base_
 
 
-patches branch workflow
-^^^^^^^^^^^^^^^^^^^^^^^
+==== patches branch workflow
+
 ....
      +------------------------+
      |        upstream        |
@@ -156,8 +156,7 @@ patches branch workflow
 
 
 [[release-overview]]
-Releases & dists overview
-~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Releases & dists overview
 
 * **Juno** (not yet released/public)
 ** _Fedora 22_
@@ -200,8 +199,7 @@ Releases & dists overview
 
 
 [[rdopkg]]
-rdopkg
-~~~~~~
+=== rdopkg
 
 `rdopkg` is a command line tool that automates many operations on RDO packages
 including:
@@ -218,15 +216,15 @@ Use of `rdopkg` is not strictly required, but using it avoids a number
 of repetitive and error prone processes involving several underlying tools.
 
 [[master-pkg-guide]]
-Master Packaging Guide
-----------------------
+== Master Packaging Guide
 
 In order to build an `RPM` with the master packaging you'll need to install
 `delorean`, following the steps below.
 
-Install dependencies
-~~~~~~~~~~~~~~~~~~~~
+=== Install dependencies
+
 [source,bash]
+----
 $> git clone https://github.com/openstack-packages/delorean.git
 $> cd delorean
 $> git clone https://github.com/redhat-openstack/rdoinfo.git
@@ -236,19 +234,24 @@ $> . ../delorean-venv/bin/activate
 $> pip install -r requirements.txt
 $> python setup.py develop
 $> systemctl start docker
+----
 
-Prepare a docker "builder" image
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Prepare a docker "builder" image
+
 [source,bash]
+----
 $> ./scripts/create_build_image.sh
+----
 
-Run Delorean
-~~~~~~~~~~~~
+=== Run Delorean
+
 Run `delorean` for the package you are trying to build.
 
 [source,bash]
+----
 $> export PYTHONPATH=$PYTHONPATH:rdoinfo
 $> delorean --config-file projects.ini --info-file rdoinfo/rdo.yml --local --package-name openstack-horizon
+----
 
 This will clone the packaging for the project your interested in into
 `data/openstack-horizon_spec`, you can now change this packaging and
@@ -267,26 +270,25 @@ just built along with the most recent successfully built version of
 each package. To find the most recent repository follow the symbolic
 link `./data/repos/current`
 
-Submitting changes to gerrit
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Submitting changes to gerrit
 
 Once you are happy that you have your changes ready to be reviewed,
 create a `git commit` with an appropriate comment, add a `git remote`
 pointing to gerrit and then submit your patch
 
 [source,bash]
+----
 $> git commit -p
 $> git remote add gerrit ssh://<username>@review.gerrithub.io:29418/openstack-packages/<package-name>
 $> git review f20-master
+----
 
-Browsing gerrit for reviews
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Browsing gerrit for reviews
 
 To look at all open patches for the upstream packaging simply use the following link
 https://review.gerrithub.io/#/q/status:open+project:^openstack-packages/.*,n,z
 
-Differences between master and rawhide packaging
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Differences between master and rawhide packaging
 
 There are a number of expected differences between the master packaging and
 the packaging in rawhide
@@ -313,8 +315,7 @@ between the two repositories http://209.132.178.33/repos/report.html
 
 
 [[rdo-pkg-guide]]
-RDO Packaging Guide
--------------------
+== RDO Packaging Guide
 
 This guide attempts to describe entire process of packaging new version of
 an OpenStack package and getting it into {rdo}[*RDO*].
@@ -330,8 +331,7 @@ to the master packaging (described above) then cherry picked into rawhide.
 
 
 [[prereqs]]
-Prerequisites
-~~~~~~~~~~~~~
+=== Prerequisites
 
 * You need to have
   *Fedora account* footnote:[also known as FAS account - https://admin.fedoraproject.org/accounts/[Fedora Account System]]
@@ -343,8 +343,7 @@ Prerequisites
 
 * TBD Gerrit account for submitting RDO updates
 
-Permissions You'll Need
-^^^^^^^^^^^^^^^^^^^^^^^
+==== Permissions You'll Need
 
 * *Fedora <<dist-git,dist-git>>*: visit
   https://admin.fedoraproject.org/pkgdb/package/openstack-nova/[pkgdb] for
@@ -371,11 +370,9 @@ Permissions You'll Need
 *** https://copr.fedoraproject.org/coprs/jruzicka/rdo-icehouse-epel-7/permissions/[rdo-icehouse-epel-7]
 
 
-Software
-^^^^^^^^
+==== Software
 
-Fedora packaging tools
-++++++++++++++++++++++
+===== Fedora packaging tools
 
 `fedora-packager` package available in standard Fedora repositories pulls in
 tools for packaging and interacting with Fedora infrastructure including
@@ -384,36 +381,42 @@ https://admin.fedoraproject.org/updates[bodhi], and
 https://admin.fedoraproject.org/pkgdb/[pkgdb] clients.
 
 [source,bash]
+----
 $> yum install fedora-packager
+----
 
 You need to setup your FAS certificate to communicate with Fedora systems:
 
 [source,bash]
+----
 $> fedora-packager-install
+----
 
 
-`rdopkg`
-++++++++
+===== `rdopkg`
 
 First, get yum repository for your distribution:
 
 Fedora:
 
 [source,bash]
+----
 $> curl -o /etc/yum.repos.d/rdopkg.repo http://FIXME.rdoproject.org/rdopkg-fedora.repo
+----
 
 RHEL >= 7:
 
 [source,bash]
+----
 $> curl -o /etc/yum.repos.d/rdopkg.repo http://FIXME.rdoproject.org/rdopkg-rhel.repo
+----
 
 and then
 
 [source,bash]
 $> yum install rdopkg
 
-`rdopkg coprbuild`
-++++++++++++++++++
+===== `rdopkg coprbuild`
 
 In order to use `rdopkg coprbuild` action to easily build packages in
 https://copr.fedoraproject.org/coprs/jruzicka[jruzicka's coprs], you need to
@@ -427,15 +430,16 @@ require `copr-cli` to
 work.
 
 
-Initial repository setup
-~~~~~~~~~~~~~~~~~~~~~~~~
+=== Initial repository setup
 
 With all the <<prereqs,prerequisites>> met, it's time to clone the package
 <<dist-git,dist-git>> using `fedpkg`.
 
 [source,bash]
+----
 $> fedpkg clone openstack-$PROJECT
 $> cd openstack-$PROJECT
+----
 
 You also need to be able to access to your project's <<patches-branch,patches
 branches>>. +
@@ -443,18 +447,21 @@ branches>>. +
 branches>> to be named `redhat-openstack`:
 
 [source,bash]
-git remote add -f redhat-openstack git@github.com:redhat-openstack/$PROJECT.git
+----
+$> git remote add -f redhat-openstack git@github.com:redhat-openstack/$PROJECT.git
+----
 
 Finally, you need a remote with upstream source in order to cherry-pick
 upstream patches and rebase <<patches-branch,patches branch>> on new
 version:
 
 [source,bash]
+----
 $> git remote add -f openstack git://github.com/openstack/$PROJECT.git
+----
 
 
-Modifying the package
-~~~~~~~~~~~~~~~~~~~~~
+=== Modifying the package
 
 The package metadata is stored in `.spec` file which is found in top
 directory of <<dist-git,dist-git>>, usually `openstack-$PROJECT.spec`. Every
@@ -471,8 +478,7 @@ Every time you do a new build, you need to:
 
 Following sections provide examples for most common packaging scenarios.
 
-Simple `.spec` fix
-^^^^^^^^^^^^^^^^^^
+==== Simple `.spec` fix
 
 The simplest kind of change that doesn't introduce/remove patches or
 different source tarball.
@@ -487,16 +493,20 @@ manipulation for you. In following example, I add a new dependency to `nova`
 package:
 
 [source,bash]
+----
 $> cd openstack-nova
 $> rdopkg fix
+----
 
 Action required: Edit .spec file as needed and describe changes in
 changelog. Once done, run `rdopkg -c` to continue:
 
 [source,bash]
+----
 $> vim openstack-nova.spec
 # Add Requires line and describe the change in %changelog
 $> rdopkg -c
+----
 
 After this, `rdopkg` generates new commit from the %changelog entry you
 provided and displays the diff:
@@ -523,8 +533,7 @@ provided and displays the diff:
     - openstack-nova-compute should depend on libvirt-daemon-kvm, not libvirt - rhbz#996715
 
 
-Introducing/removing patches
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+==== Introducing/removing patches
 
 When new patches are introduced to <<patches-branch,patches branch>> (usually
 by `git review`), <<dist-git,dist-git>> must be updated with new patches files
@@ -544,8 +553,7 @@ rdopkg-adv-patch] for an example of using `rdopkg patch`.
 
 NOTE: TODO
 
-Rebasing to new version
-^^^^^^^^^^^^^^^^^^^^^^^
+==== Rebasing to new version
 
 See
 http://FIXME.rdoproject.org/rdopkg/rdopkg-adv-new-version.7.html[man
@@ -555,22 +563,22 @@ a package to a new upstream version.
 NOTE: TODO
 
 
-Building the package
-~~~~~~~~~~~~~~~~~~~~
+=== Building the package
 
 After you have modified <<dist-git,dist-git>> to your liking, it's time to build.
 You need to be on the dist-git branch of respective Fedora release such as
 `master` or `f21`, see <<release-overview>>.
 
 
-local build with mock
-^^^^^^^^^^^^^^^^^^^^^
+==== local build with mock
 
 You can build the Fedora package locally using `mock` to ensure it builds
 and/or test it:
 
 [source,bash]
+----
 $> fedpkg mockbuild
+----
 
 Find the results in `./results_$PACKAGE/$VERSION/$RELEASE` directory. The
 most interesting file is `build.log`.
@@ -580,11 +588,11 @@ requirements only available at {rdo}[*RDO*]
 https://copr.fedoraproject.org/coprs/jruzicka/[coprs]:
 
 [source,bash]
+----
 $> fedpkg --dist el7 mockbuild --root epel-7-x86_64
+----
 
-
-copr build of EL package
-^^^^^^^^^^^^^^^^^^^^^^^^
+==== copr build of EL package
 
 Beginning with the Icehouse release, EL packages are built in
 https://copr.fedoraproject.org/coprs/jruzicka/rdo-juno-epel-7/[copr] build
@@ -599,7 +607,9 @@ The following command creates a source RPM for selected distro using
 be built in `copr`:
 
 [source,bash]
+----
 $> rdopkg coprbuild -d epel-7 -f up.yml
+----
 
 Also, `-f up.yml` instructs `rdopkg` to dump the build information
 into `up.yml` file that can be used later to submit an {rdo}[*RDO*]
@@ -609,24 +619,26 @@ See a full example of using `rdopkg coprbuild` in
 http://FIXME.rdoproject.org/rdopkg/rdopkg-adv-coprbuild.7.html[man rdopkg-adv-coprbuild].
 
 
-koji build of Fedora package
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+==== koji build of Fedora package
 
 Push your Fedora <<dist-git,dist-git>> changes and build using `fedpkg`:
 
 [source,bash]
+----
 $> git push
 $> fedpkg build
+----
 
 
-Submitting an update
-~~~~~~~~~~~~~~~~~~~~
+=== Submitting an update
 
 After your builds finished, you need to submit the package(s) for
 update in {rdo}[*RDO*] using:
 
 [source,bash]
+----
 $> rdopkg update
+----
 
 By default, `rdopkg update` tries to autodetect which package you're trying to
 update and opens an YAML update file template in text editor. You need to
@@ -647,12 +659,15 @@ gerrit. The update needs to pass CI in order to be merged and later pushed to
 To track your update, use:
 
 [source, bash]
+----
 $> rdopkg list-updates -r
+----
 
-Fedora update
-^^^^^^^^^^^^^
+==== Fedora update
 
 [source,bash]
+----
 $> fedpkg update
+----
 
 NOTE: TODO
