@@ -39,7 +39,7 @@ script to automatically rebuild docs on `doc/*.txt` changes.
 ## Adding new doc
 
 At the time of writing, only [RDO packaging guide](doc/rdo-packaging.txt)
-is included, but if you'd like to docuemnt anything else using nice asciidoc
+is included, but if you'd like to document anything else using nice asciidoc
 text files, just:
 
  * add new `doc/*.txt` file

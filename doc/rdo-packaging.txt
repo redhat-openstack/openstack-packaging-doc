@@ -249,7 +249,7 @@ Run `delorean` for the package you are trying to build.
 $> export PYTHONPATH=$PYTHONPATH:rdoinfo
 $> delorean --config-file projects.ini --info-file rdoinfo/rdo.yml --local --package-name openstack-horizon
 
-This will clone the packaging for the project your interested in into
+This will clone the packaging for the project you're interested in into
 `data/openstack-horizon_spec`, you can now change this packaging and
 rerun the `delorean` command in test your changes.
 

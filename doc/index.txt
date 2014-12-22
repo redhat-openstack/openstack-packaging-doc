@@ -23,7 +23,7 @@ number of downstream patches.
 
 == Open Governance
 
-When Red Hat launched the RDO commnity in April 2013, we chose to
+When Red Hat launched the RDO community in April 2013, we chose to
 focus our energies on making an OpenStack distribution available and
 encouraging a self-supporting community of users around the
 distribution, related tools, and supporting documentation. With this
