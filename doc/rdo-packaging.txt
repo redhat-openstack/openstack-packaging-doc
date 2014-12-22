@@ -227,7 +227,9 @@ Install dependencies
 $> git clone https://github.com/openstack-packages/delorean.git
 $> cd delorean
 $> git clone https://github.com/redhat-openstack/rdoinfo.git
-$> yum install docker-io git createrepo python-virtualenv git-hg
+$> yum install docker-io git createrepo python-virtualenv git-hg selinux-policy
+$> sudo usermod -a -G docker $USER; newgrp docker
+$> chcon -t docker_exec_t scripts/*
 $> virtualenv ../delorean-venv
 $> . ../delorean-venv/bin/activate
 $> pip install -r requirements.txt
