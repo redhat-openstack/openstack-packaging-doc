@@ -394,22 +394,13 @@ $> fedora-packager-install
 `rdopkg`
 ++++++++
 
-First, get yum repository for your distribution:
-
-Fedora:
-
-[source,bash]
-$> curl -o /etc/yum.repos.d/rdopkg.repo http://FIXME.rdoproject.org/rdopkg-fedora.repo
-
-RHEL >= 7:
+`rdopkg` is available from
+https://copr.fedoraproject.org/coprs/jruzicka/rdopkg[jruzicka/rdopkg copr],
+see the link for instructions on howto enable the copr. Once enabled,
 
 [source,bash]
-$> curl -o /etc/yum.repos.d/rdopkg.repo http://FIXME.rdoproject.org/rdopkg-rhel.repo
+$> yum install -y rdopkg
 
-and then
-
-[source,bash]
-$> yum install rdopkg
 
 `rdopkg coprbuild`
 ++++++++++++++++++
