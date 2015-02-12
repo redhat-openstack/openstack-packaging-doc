@@ -323,7 +323,7 @@ $> yum install fedora-packager
 You need to setup your FAS certificate to communicate with Fedora systems:
 
 [source,bash]
-$> fedora-packager-install
+$> fedora-packager-setup
 
 
 `rdopkg`
