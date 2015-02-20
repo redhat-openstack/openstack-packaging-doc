@@ -226,7 +226,6 @@ Install dependencies
 [source,bash]
 $> git clone https://github.com/openstack-packages/delorean.git
 $> cd delorean
-$> git clone https://github.com/redhat-openstack/rdoinfo.git
 $> yum install docker-io git createrepo python-virtualenv git-hg selinux-policy
 $> sudo usermod -a -G docker $USER; newgrp docker
 $> chcon -t docker_exec_t scripts/*
@@ -246,8 +245,7 @@ Run Delorean
 Run `delorean` for the package you are trying to build.
 
 [source,bash]
-$> export PYTHONPATH=$PYTHONPATH:rdoinfo
-$> delorean --config-file projects.ini --info-file rdoinfo/rdo.yml --local --package-name openstack-horizon
+$> delorean --config-file projects.ini --local --package-name openstack-horizon
 
 This will clone the packaging for the project you're interested in into
 `data/openstack-horizon_spec`, you can now change this packaging and
