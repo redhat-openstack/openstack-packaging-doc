@@ -227,6 +227,8 @@ Install dependencies
 $> git clone https://github.com/openstack-packages/delorean.git
 $> cd delorean
 $> yum install docker-io git createrepo python-virtualenv git-hg selinux-policy
+# For Fedora 21, create a new group `docker`
+$> sudo groupadd docker
 $> sudo usermod -a -G docker $USER; newgrp docker
 $> chcon -t docker_exec_t scripts/*
 $> virtualenv ../delorean-venv
