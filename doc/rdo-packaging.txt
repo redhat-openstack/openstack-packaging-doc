@@ -308,7 +308,11 @@ the packaging in rawhide
 
 To Assist in identifing difference the report being output by the
 production `delorean` includes a spec delta link showing a diff
-between the two repositories http://209.132.178.33/repos/report.html
+between the two repositories:
+
+* Fedora 21: http://trunk.rdoproject.org/f21/report.html
+
+* CentOS 7: http://trunk.rdoproject.org/centos70/report.html
 
 
 [[rdo-pkg-guide]]
