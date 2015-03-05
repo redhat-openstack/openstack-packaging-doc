@@ -20,8 +20,8 @@ Introduction
 This document attempts to be the definitive source of information about
 {rdo}[*RDO*] OpenStack packaging for developers and packagers.
 
-It's written in `asciidoc` and you can edit it using your favorite text
-editor:
+It's written in http://asciidoctor.org/[asciidoc] and you can edit it
+using your favorite text editor:
 
 [source,bash]
 $> git clone https://github.com/redhat-openstack/openstack-packaging-doc.git
@@ -220,6 +220,19 @@ Master Packaging Guide
 
 In order to build an `RPM` with the master packaging you'll need to install
 `delorean`, following the steps below.
+
+[CAUTION]
+.What's missing/wrong here in this documentation:
+==============================================================================
+* `data/` and `scripts/` should have `svirt_sandbox_file_t` *selinux* label
+  to be accessible in docker (seems to work also instead of `docker_exec_t`)
+* no description how to configure exporting of `data/repos/` through *http*(d)
+  (alias+directory section)
+* updating *projects.ini* may be needed (baseurl=ip) - or not?
+* how to build for *different distro*/arch (like mock profile?)
+* ... and something should be done to *speedup* build-all
+  (rebuild one pkg which needs it, while keeping others in repos/current etc)
+==============================================================================
 
 Install dependencies
 ~~~~~~~~~~~~~~~~~~~~

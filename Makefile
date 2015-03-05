@@ -1,5 +1,6 @@
 SRCS := $(wildcard doc/*.txt)
 HTML := $(SRCS:doc/%.txt=html/%.html)
+BUILDER := $(shell (which asciidoctor asciidoc || echo asciidoctor) 2> /dev/null | head -n1)
 
 all: html
 
@@ -9,7 +10,7 @@ html_dir:
 	mkdir -p html
 
 html/%.html: doc/%.txt | html_dir
-	asciidoctor -b html5 \
+	${BUILDER} -b html5 \
 		-a linkcss -a stylesheet=rdo.css -a stylesdir=stylesheets \
 		-a icons -a imagesdir=images -a iconsdir=images/icons \
 		-o $@ $<
