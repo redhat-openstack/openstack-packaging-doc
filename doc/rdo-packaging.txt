@@ -434,10 +434,10 @@ $> cd openstack-$PROJECT
 You also need to be able to access to your project's <<patches-branch,patches
 branches>>. +
 `rdopkg` expects the `git` remote containing <<patches-branch,patches
-branches>> to be named `redhat-openstack`:
+branches>> to be named `patches`:
 
 [source,bash]
-git remote add -f redhat-openstack git@github.com:redhat-openstack/$PROJECT.git
+git remote add -f patches git@github.com:redhat-openstack/$PROJECT.git
 
 Finally, you need a remote with upstream source in order to cherry-pick
 upstream patches and rebase <<patches-branch,patches branch>> on new
