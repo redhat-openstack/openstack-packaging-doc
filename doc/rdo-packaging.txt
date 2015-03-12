@@ -315,6 +315,22 @@ between the two repositories:
 * CentOS 7: http://trunk.rdoproject.org/centos70/report.html
 
 
+How to add a new package to RDO master packaging
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* Prepare a public git repository with the initial .spec in rpm-master branch.
+** Repository name should be equal to the upstream source repository name for standalone projects e.g. nova and with python- prefix for libraries and clients e.g. python-networking-arista.
+** Add .gitreview e.g. https://github.com/openstack-packages/nova/blob/f20-master/.gitreview
+
+* Ask one of the owners in (https://github.com/orgs/openstack-packages/people[openstack-packages org]) to create a new repositry and import from your public repository.
+
+** Owners: after creating and importing repository in github, replicate it to gerrithub by selecting openstack-packages at https://review.gerrithub.io/plugins/github-plugin/static/repositories.html. After import, add rdo-packagers group as an Owner in https://review.gerrithub.io/#/admin/projects/openstack-packages/PROJECT,access
+
+* Submit all further updates via gerrithub.
+
+* When ready, send pull-request to add the package in rdoinfo e.g. https://github.com/redhat-openstack/rdoinfo/pull/30
+
+
 [[rdo-pkg-guide]]
 RDO Packaging Guide
 -------------------
