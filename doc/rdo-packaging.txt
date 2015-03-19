@@ -200,19 +200,24 @@ Releases & dists overview
 rdopkg
 ~~~~~~
 
-`rdopkg` is a command line tool that automates many operations on RDO packages
-including:
+https://github.com/redhat-openstack/rdopkg[rdopkg] is a command line tool
+that automates many operations on RDO packags including:
 
  * rebases to new version
  * introducing patches
  * modifying .spec file: bumping versions, managing patches, writing
    changelog, producing meaningful commit messages, ...
- * build package in copr build system
+ * build packages in supported build systems
 
-On top of that, `rdopkg` also serves as {rdo}[*RDO*] update/CI frontend.
+On top of that, `rdopkg` also serves as {rdo}[*RDO*] update/CI frontend,
+it can obtain various information about RDO for you and more.
 
-Use of `rdopkg` is not strictly required, but using it avoids a number
-of repetitive and error prone processes involving several underlying tools.
+`rdopkg` is a Swiss army knife of RDO packaging and it avoids a number of
+repetitive and error prone processes involving several underlying tools, each
+with its own quirks.
+
+See https://github.com/redhat-openstack/rdopkg[rdopkg on github] and also
+https://www.rdoproject.org/packaging/rdopkg/rdopkg.1.html[man rdopkg].
 
 [[master-pkg-guide]]
 Master Packaging Guide
@@ -414,7 +419,8 @@ $> fedora-packager-setup
 `rdopkg`
 ++++++++
 
-`rdopkg` is available from
+See https://github.com/redhat-openstack/rdopkg[rdopkg on github] for all
+installation options. I reccomend using
 https://copr.fedoraproject.org/coprs/jruzicka/rdopkg[jruzicka/rdopkg copr],
 see the link for instructions on howto enable the copr. Once enabled,
 
