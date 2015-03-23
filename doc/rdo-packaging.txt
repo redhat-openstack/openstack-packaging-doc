@@ -9,7 +9,6 @@ Author: Jakub Ružička <jruzicka at redhat dot com>
 :rdorepo: http://rdo.fedorapeople.org
 :f21-juno-repo: https://repos.fedorapeople.org/repos/openstack/openstack-juno/fedora-21/
 :f20-icehouse-repo: https://repos.fedorapeople.org/repos/openstack/openstack-icehouse/fedora-20/
-:f19-havana-repo: https://repos.fedorapeople.org/repos/openstack/openstack-havana/fedora-19/
 :redhat: http://www.redhat.com
 :redhat-openstack-org: https://github.com/redhat-openstack/
 :rhosp: http://www.redhat.com/openstack
@@ -46,7 +45,6 @@ official Fedora repositories are:
 
  * f22 / rawhide / master = Juno
  * f21 = Icehouse
- * f20 = Havana
 
 {rdo}[RDO] also provides one release ahead for Fedora. There are
 separate {rdorepo}[RDO repositories] that provide more recent
@@ -54,7 +52,6 @@ OpenStack packages on the current stable version of Fedora.
 
  * {f21-juno-repo}[Juno for f21]
  * {f20-icehouse-repo}[Icehouse for f20]
- * {f19-havana-repo}[Havana for f19]
 
 The EL6 and EL7 packages are only provided through the {rdo}[*RDO*]
 repositories.
@@ -183,17 +180,6 @@ Releases & dists overview
 ** `epel-6`
 *** RDO repo
 *** built in https://copr.fedoraproject.org/coprs/jruzicka/rdo-icehouse-epel-6/[copr]
-
-* **Havana** (https://www.redhat.com/archives/rdo-list/2014-July/msg00072.html[EOL] mid September)
-** _Fedora 20_
-*** available from official Fedora 20 repos
-*** built through `koji` (`f20` branch)
-** `fedora-19`
-*** RDO repo
-*** Fedora 20 builds from `koji` reused
-** `epel-6`
-*** RDO repo
-*** built in `koji` from `el6-havana` branch with `--dist el6`
 
 
 [[rdopkg]]
