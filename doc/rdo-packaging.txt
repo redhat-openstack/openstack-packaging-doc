@@ -43,7 +43,8 @@ Currently there is a 1:1 mapping between Fedora and OpenStack releases.
 I.E. the OpenStack package versions that are provided through the
 official Fedora repositories are:
 
- * f22 / rawhide / master = Juno
+ * f23 / rawhide / master = Kilo
+ * f22 = Juno
  * f21 = Icehouse
 
 {rdo}[RDO] also provides one release ahead for Fedora. There are
@@ -153,7 +154,7 @@ patches branch workflow
 Releases & dists overview
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-* **Juno** (not yet released/public)
+* **Juno** (latest release)
 ** _Fedora 22_
 *** available from official Fedora repos
 *** built through `koji` (currently `master` branch)
@@ -167,7 +168,7 @@ Releases & dists overview
 *** RDO repo
 *** built in https://copr.fedoraproject.org/coprs/jruzicka/rdo-juno-epel-7/[copr]
 
-* **Icehouse** (latest release)
+* **Icehouse**
 ** _Fedora 21_
 *** available from official Fedora 21 repos
 *** built through `koji` (`f21` branch)
