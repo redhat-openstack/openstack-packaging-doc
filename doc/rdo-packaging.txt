@@ -242,7 +242,7 @@ Run `delorean` for the package you are trying to build.
 $> delorean --config-file projects.ini --local --package-name openstack-horizon
 
 This will clone the packaging for the project you're interested in into
-`data/openstack-horizon_spec`, you can now change this packaging and
+`data/openstack-horizon_repo`, you can now change this packaging and
 rerun the `delorean` command in test your changes.
 
 If you have locally changed the packaging make sure to include `--dev`
