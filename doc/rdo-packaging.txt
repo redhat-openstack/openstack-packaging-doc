@@ -239,10 +239,10 @@ Run Delorean
 Run `delorean` for the package you are trying to build.
 
 [source,bash]
-$> delorean --config-file projects.ini --local --package-name openstack-horizon
+$> delorean --config-file projects.ini --local --package-name openstack-cinder
 
 This will clone the packaging for the project you're interested in into
-`data/openstack-horizon_repo`, you can now change this packaging and
+`data/openstack-cinder_repo`, you can now change this packaging and
 rerun the `delorean` command in test your changes.
 
 If you have locally changed the packaging make sure to include `--dev`
