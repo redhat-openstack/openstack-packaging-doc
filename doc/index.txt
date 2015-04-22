@@ -3,7 +3,7 @@
 :icons:
 :iconsdir: ../images/icons/
 :numbered:
-:rdo: https://openstack.redhat.com
+:rdo: https://rdoproject.org/
 :rhosp: http://www.redhat.com/openstack
 :redhat: http://www.redhat.com
 
@@ -52,7 +52,7 @@ a|* link:rdo-packaging.html[*RDO Packaging Guide*] +
 * RDO Mailing Lists
 ** *rdo-list*: https://www.redhat.com/mailman/listinfo/rdo-list[*subscribe*], https://www.redhat.com/archives/rdo-list/[*archives*]
 ** *rdo-newsletter*: https://www.redhat.com/mailman/listinfo/rdo-newsletter[*subscribe*], https://www.redhat.com/archives/rdo-newsletter/[*archives*]
-* http://openstack.redhat.com/[RDO Community Site]
+* https://rdoproject.org/[RDO Community Site]
 * Use http://webchat.freenode.net/?randomnick=1&channels=rdo&uio=d4[#rdo on the irc.freenode.net IRC server] for questions about the service
 * Follow us on twitter https://twitter.com/RDOcommunity[@RDOcommunity]
 

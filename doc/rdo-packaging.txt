@@ -5,7 +5,7 @@ Author: Jakub Ružička <jruzicka at redhat dot com>
 :iconsdir: ../images/icons/
 :numbered:
 :source-highlighter: highlightjs
-:rdo: https://openstack.redhat.com
+:rdo: https://rdoproject.org/
 :rdorepo: http://rdo.fedorapeople.org
 :f21-juno-repo: https://repos.fedorapeople.org/repos/openstack/openstack-juno/fedora-21/
 :f20-icehouse-repo: https://repos.fedorapeople.org/repos/openstack/openstack-icehouse/fedora-20/
