@@ -268,7 +268,7 @@ pointing to gerrit and then submit your patch
 [source,bash]
 $> git commit -p
 $> git remote add gerrit ssh://<username>@review.gerrithub.io:29418/openstack-packages/<package-name>
-$> git review f20-master
+$> git review rpm-master
 
 Browsing gerrit for reviews
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -282,7 +282,7 @@ Differences between master and rawhide packaging
 There are a number of expected differences between the master packaging and
 the packaging in rawhide
 
-* The `delorean` packaging has had `Version:` and `Release:` tags are
+* The `delorean` packaging has had `Version:` and `Release:` fields
   both set to `XXX` in the `delorean` packaging as we take both of
   these from the tags set on the git repositories
 
@@ -292,8 +292,11 @@ the packaging in rawhide
 * All of the master specs contain a reference to `%{upstream_version}`
   in the `%setup macro`, this is because the subdirectory contained in
   the source tarball contains both the version and release, this is
-  being passed into `rpmbuild` and should not be used in the fedora
-  packaging, in most cases it can just be replaced with `%{version}`
+  being passed into `rpmbuild`. In the Fedora packaging, spec can
+  include compatibility macro e.g. http://pkgs.fedoraproject.org/cgit/openstack-nova.git/tree/openstack-nova.spec
+  to avoid conflicts when backporting change from master packaging.
+
+* %changelog section is empty in master packaging
 
 * The files `sources` and `.gitignore` have been truncated in the
   master packaging
@@ -312,9 +315,10 @@ How to add a new package to RDO master packaging
 
 * Prepare a public git repository with the initial .spec in rpm-master branch.
 ** Repository name should be equal to the upstream source repository name for standalone projects e.g. nova and with python- prefix for libraries and clients e.g. python-networking-arista.
-** Add .gitreview e.g. https://github.com/openstack-packages/nova/blob/f20-master/.gitreview
+** Add .gitreview e.g. https://github.com/openstack-packages/nova/blob/rpm-master/.gitreview
+** Please note differences to Fedora Rawhide packaging described in the previous section!
 
-* Ask one of the owners in (https://github.com/orgs/openstack-packages/people[openstack-packages org]) to create a new repositry and import from your public repository.
+* Ask one of the owners in (https://github.com/orgs/openstack-packages/people[openstack-packages org]) to create a new repository and import from your public repository.
 
 ** Owners: after creating and importing repository in github, replicate it to gerrithub by selecting openstack-packages at https://review.gerrithub.io/plugins/github-plugin/static/repositories.html. After import, add rdo-packagers group as an Owner in https://review.gerrithub.io/#/admin/projects/openstack-packages/PROJECT,access
 
