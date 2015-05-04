@@ -266,8 +266,8 @@ create a `git commit` with an appropriate comment, add a `git remote`
 pointing to gerrit and then submit your patch
 
 [source,bash]
+$> git clone -o gerrit https://review.gerrithub.io/openstack-packages/<package-name>
 $> git commit -p
-$> git remote add gerrit ssh://<username>@review.gerrithub.io:29418/openstack-packages/<package-name>
 $> git review rpm-master
 
 Browsing gerrit for reviews
