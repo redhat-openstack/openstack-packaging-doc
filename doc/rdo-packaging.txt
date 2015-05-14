@@ -1,8 +1,6 @@
 = RDO Openstack Packaging
-Author: Jakub Ružička <jruzicka at redhat dot com>
+:author: Jakub Ružička <jruzicka at redhat dot com>
 :toc2:
-:icons:
-:iconsdir: ../images/icons/
 :numbered:
 :source-highlighter: highlightjs
 :rdo: https://rdoproject.org/

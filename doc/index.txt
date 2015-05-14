@@ -1,7 +1,5 @@
 = RDO Packaging Documentation
 :toc2:
-:icons:
-:iconsdir: ../images/icons/
 :numbered:
 :rdo: https://rdoproject.org/
 :rhosp: http://www.redhat.com/openstack
