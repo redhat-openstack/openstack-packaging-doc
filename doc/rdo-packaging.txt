@@ -32,6 +32,10 @@ $> git commit -a
 Packaging workflow
 ~~~~~~~~~~~~~~~~~~
 
+[[rdo-packaging-workflow]]
+.RDO packaging workflow
+image::../images/rdo-workflow.jpg[link="../images/rdo-workflow.jpg"]
+
 Currently all {rdo}[*RDO*] packaging resources are maintained in the Fedora
 <<dist-git,dist-git>> repositories. This includes support for all
 Fedora distros of course, but currently also caters for EL6 and EL7
