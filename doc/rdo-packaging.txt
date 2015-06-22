@@ -549,6 +549,19 @@ and `.spec` file patch definitions.
   features (reset local patches branch from remote, bump release, generate
   changelog entry)
 
+Because a lot of the packages are python and use setuptools and pbr, some patches may not apply correctly because the sdist tarball changes the format of setup.cfg.  This will show up during rpm build time with an error applying the patch.  This issue can be worked around using the following process.
+
+* unpack the source tarball
+* git clone the patches branch
+* copy the config.cfg file from the tarball into your git tree
+* git commit the change
+* git revert HEAD
+* edit the patches_base line to # patches_base=+1
+* reorder the patches on the patches branch so that the initial change is first, then the revert is second after the tarball
+* rdopkg patch uses the patches_base line to skip the first patch but apply the second
+
+This results in patches that apply to the upstream git tree applying without modification on the tarball.
+
 See
 http://FIXME.rdoproject.org/rdopkg/rdopkg-adv-patch.7.html[man
 rdopkg-adv-patch] for an example of using `rdopkg patch`.
