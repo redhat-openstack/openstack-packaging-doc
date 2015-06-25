@@ -158,6 +158,8 @@ patches branch workflow
 Releases & dists overview
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
+NOTE: Use `rdopkg info` to get up-to-date release & dists overview.
+
 * **Juno** (latest release)
 ** _Fedora 22_
 *** available from official Fedora repos
@@ -562,21 +564,15 @@ Because a lot of the packages are python and use setuptools and pbr, some patche
 
 This results in patches that apply to the upstream git tree applying without modification on the tarball.
 
-See
-http://FIXME.rdoproject.org/rdopkg/rdopkg-adv-patch.7.html[man
-rdopkg-adv-patch] for an example of using `rdopkg patch`.
-
 NOTE: TODO
 
 Rebasing to new version
 ^^^^^^^^^^^^^^^^^^^^^^^
 
 See
-http://FIXME.rdoproject.org/rdopkg/rdopkg-adv-new-version.7.html[man
-rdopkg-adv-new-version] for an example of using `rdopkg new-version` to update
-a package to a new upstream version.
-
-NOTE: TODO
+link:rdopkg/rdopkg-adv-new-version.7.html[`man rdopkg-adv-new-version`]  for
+an example of using `rdopkg new-version` to update a package to a new upstream
+version.
 
 
 Building the package
@@ -630,7 +626,7 @@ into `up.yml` file that can be used later to submit an {rdo}[*RDO*]
 update using `rdopkg update -f up.yml`.
 
 See a full example of using `rdopkg coprbuild` in
-http://FIXME.rdoproject.org/rdopkg/rdopkg-adv-coprbuild.7.html[man rdopkg-adv-coprbuild].
+link:rdopkg/rdopkg-adv-building.7.html[man rdopkg-adv-building].
 
 
 koji build of Fedora package
@@ -657,10 +653,9 @@ update and opens an YAML update file template in text editor. You need to
 specify all builds that should be updated at once in the update file.
 
 See **ACTION: update** in
-
-link:$$http://FIXME.rdoproject.org/rdopkg/rdopkg.1.html#ACTIONS$$[man rdopkg]
+link:$$rdopkg/rdopkg.1.html#_action_update$$[man rdopkg].
 and also
-link:$$http://FIXME.rdoproject.org/rdopkg/rdopkg-adv-coprbuild.7.html$$[man rdopkg-adv-coprbuild]
+link:rdopkg/rdopkg-adv-building.7.html[man rdopkg-adv-building].
 for an example of how to do `copr` and `koji` builds and prepare and submit the
 update file non-interactively.
 
