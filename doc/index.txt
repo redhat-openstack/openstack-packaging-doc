@@ -38,11 +38,10 @@ https://www.redhat.com/mailman/listinfo/rdo-list[rdo-list@redhat.com].
 
 [cols="1*<.<1d",options="header"]
 |===
-| Packagers Guides
+| Packaging Guides
 
 a|* link:rdo-packaging.html[*RDO Packaging Guide*] +
-* *Packstack and Openstack Puppet Modules Packaging Guide* (Available soon) +
-
+* link:rdopkg/rdopkg.1.html[*`rdopkg` manual*] +
 |===
 
 
