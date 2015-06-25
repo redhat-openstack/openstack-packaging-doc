@@ -474,8 +474,8 @@ $> rdopkg pkgenv
 Requirements management
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-Please see link:rdopkg/rdopkg-adv-requirements.7.html[`man
-rdopkg-adv-requirements`] for complete introduction to `rdopkg` requirements
+Please see link:rdopkg/rdopkg-adv-requirements.7.html[man
+rdopkg-adv-requirements] for complete introduction to `rdopkg` requirements
 management magicks.
 
 
@@ -582,7 +582,7 @@ Rebasing to new version
 ^^^^^^^^^^^^^^^^^^^^^^^
 
 See
-link:rdopkg/rdopkg-adv-new-version.7.html[`man rdopkg-adv-new-version`]  for
+link:rdopkg/rdopkg-adv-new-version.7.html[man rdopkg-adv-new-version]  for
 an example of using `rdopkg new-version` to update a package to a new upstream
 version.
 
