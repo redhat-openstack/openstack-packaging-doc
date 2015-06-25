@@ -465,6 +465,19 @@ version:
 [source,bash]
 $> git remote add -f openstack git://github.com/openstack/$PROJECT.git
 
+You can check your setup with:
+
+[source,bash]
+$> rdopkg pkgenv
+
+
+Requirements management
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Please see link:rdopkg/rdopkg-adv-requirements.7.html[`man
+rdopkg-adv-requirements`] for complete introduction to `rdopkg` requirements
+management magicks.
+
 
 Modifying the package
 ~~~~~~~~~~~~~~~~~~~~~
@@ -564,7 +577,6 @@ Because a lot of the packages are python and use setuptools and pbr, some patche
 
 This results in patches that apply to the upstream git tree applying without modification on the tarball.
 
-NOTE: TODO
 
 Rebasing to new version
 ^^^^^^^^^^^^^^^^^^^^^^^
