@@ -320,7 +320,8 @@ How to add a new package to RDO master packaging
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * Prepare a public git repository with the initial .spec in rpm-master branch.
-** Repository name should be equal to the upstream source repository name for standalone projects e.g. nova and with python- prefix for libraries and clients e.g. python-networking-arista.
+** Please don't reinvent a wheel. There is a great chance that some similar projects are already packaged for RDO master. For example, if you need to package a vendor library for Neutron, please base your new package on one of python-networking-* packages already in the project. This will help to avoid unneeded diversity, and should give you a better clue about RDO master expectations as for the style and quality of packaging.
+** Repository name should be equal to the upstream source repository name for standalone projects e.g. nova and with python- prefix for libraries and clients e.g. python-networking-arista. Please also consider aligning the name with other packages that are already present in RDO master.
 ** Add .gitreview e.g. https://github.com/openstack-packages/nova/blob/rpm-master/.gitreview
 ** Please note differences to Fedora Rawhide packaging described in the previous section!
 
