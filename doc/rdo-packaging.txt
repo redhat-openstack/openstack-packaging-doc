@@ -222,18 +222,17 @@ In order to build an `RPM` with the master packaging you'll need to install
 Install dependencies
 ~~~~~~~~~~~~~~~~~~~~
 [source,bash]
+$> sudo curl https://copr.fedoraproject.org/coprs/jruzicka/rdopkg/repo/fedora-22/jruzicka-rdopkg-fedora-22.repo -o /etc/yum.repos.d/jruzicka-rdopkg-fedora.repo
+$> sudo yum install docker-io git createrepo python-virtualenv selinux-policy rdopkg python-oslo-config python-babel python-prettytable python-sh python-sqlalchemy
 $> git clone https://github.com/openstack-packages/delorean.git
 $> cd delorean
-$> yum install docker-io git createrepo python-virtualenv git-hg selinux-policy
-# For Fedora 21, create a new group `docker`
 $> sudo groupadd docker
 $> sudo usermod -a -G docker $USER; newgrp docker
 $> chcon -t docker_exec_t scripts/*
-$> virtualenv ../delorean-venv
+$> virtualenv --system-site-packages ../delorean-venv
 $> . ../delorean-venv/bin/activate
-$> pip install -r requirements.txt
 $> python setup.py develop
-$> systemctl start docker
+$> sudo systemctl start docker
 
 Prepare a docker "builder" image
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
