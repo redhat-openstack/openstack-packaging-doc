@@ -222,7 +222,7 @@ In order to build an `RPM` with the master packaging you'll need to install
 Install dependencies
 ~~~~~~~~~~~~~~~~~~~~
 [source,bash]
-$> curl https://copr.fedoraproject.org/coprs/jruzicka/rdopkg/repo/fedora-22/jruzicka-rdopkg-fedora-22.repo -o /etc/yum.repos.d/jruzicka-rdopkg-fedora.repo
+$> sudo curl https://copr.fedoraproject.org/coprs/jruzicka/rdopkg/repo/fedora-22/jruzicka-rdopkg-fedora-22.repo -o /etc/yum.repos.d/jruzicka-rdopkg-fedora.repo
 $> sudo yum install docker-io git createrepo python-virtualenv selinux-policy rdopkg python-oslo-config python-babel python-prettytable python-sh python-sqlalchemy
 $> git clone https://github.com/openstack-packages/delorean.git
 $> cd delorean
