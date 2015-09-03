@@ -217,7 +217,7 @@ Master Packaging Guide
 ----------------------
 
 In order to build an `RPM` with the master packaging you'll need to install
-`delorean`, following the steps below.
+https://github.com/openstack-packages/delorean[delorean], following the steps below.
 
 Install dependencies
 ~~~~~~~~~~~~~~~~~~~~
