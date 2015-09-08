@@ -246,6 +246,10 @@ Run `delorean` for the package you are trying to build.
 [source,bash]
 $> delorean --config-file projects.ini --local --package-name openstack-cinder
 
+NOTE: If the docker container bumps into permission denied issues for scripts
+such as `build_rpm_wrapper.sh`, you might need to set SELinux into permissive
+mode.
+
 This will clone the packaging for the project you're interested in into
 `data/openstack-cinder_repo`, you can now change this packaging and
 rerun the `delorean` command in test your changes.
