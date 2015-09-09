@@ -306,6 +306,8 @@ the packaging in rawhide
 * The files `sources` and `.gitignore` have been truncated in the
   master packaging
 
+* In `%files` avoid using `%{version}` and use instead wildcard `*`
+
 To Assist in identifing difference the report being output by the
 production `delorean` includes a spec delta link showing a diff
 between the two repositories:
