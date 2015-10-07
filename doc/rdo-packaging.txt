@@ -216,28 +216,10 @@ https://www.rdoproject.org/packaging/rdopkg/rdopkg.1.html[man rdopkg].
 Master Packaging Guide
 ----------------------
 
-In order to build an `RPM` with the master packaging you'll need to install
-https://github.com/openstack-packages/delorean[delorean], following the steps below.
-
-Install dependencies
-~~~~~~~~~~~~~~~~~~~~
-[source,bash]
-$> sudo curl https://copr.fedoraproject.org/coprs/jruzicka/rdopkg/repo/fedora-22/jruzicka-rdopkg-fedora-22.repo -o /etc/yum.repos.d/jruzicka-rdopkg-fedora.repo
-$> sudo yum install docker-io git createrepo python-virtualenv selinux-policy rdopkg python-oslo-config python-babel python-prettytable python-sh python-sqlalchemy
-$> git clone https://github.com/openstack-packages/delorean.git
-$> cd delorean
-$> sudo groupadd docker
-$> sudo usermod -a -G docker $USER; newgrp docker
-$> chcon -t docker_exec_t scripts/*
-$> virtualenv --system-site-packages ../delorean-venv
-$> . ../delorean-venv/bin/activate
-$> python setup.py develop
-$> sudo systemctl start docker
-
-Prepare a docker "builder" image
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-[source,bash]
-$> ./scripts/create_build_image.sh
+In order to build an `RPM` with the master packaging you'll need to
+install https://github.com/openstack-packages/delorean[delorean],
+following the instructions described in this
+https://github.com/openstack-packages/delorean/blob/master/README.rst[README].
 
 Run Delorean
 ~~~~~~~~~~~~
