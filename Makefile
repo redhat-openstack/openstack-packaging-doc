@@ -3,7 +3,7 @@ HTML := $(SRCS:doc/%.txt=html/%.html)
 
 all: html
 
-html: $(HTML) html/images html/stylesheets
+html: $(HTML) html/images html/stylesheets/rdo.css
 
 html_dir:
 	mkdir -p html
@@ -17,8 +17,8 @@ html/%.html: doc/%.txt | html_dir
 html/images:
 	cp -r images html/
 
-html/stylesheets:
-	cp -r stylesheets html/
+html/stylesheets/%.css:
+	cp -r stylesheets/$(@F) $@
 
 clean:
 	rm -rf html
