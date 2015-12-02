@@ -11,6 +11,7 @@ Author: Jakub Ružička <jruzicka at redhat dot com>
 :f20-icehouse-repo: https://repos.fedorapeople.org/repos/openstack/openstack-icehouse/fedora-20/
 :redhat: http://www.redhat.com
 :redhat-openstack-org: https://github.com/redhat-openstack/
+:openstack-packages-org: https://github.com/openstack-packages/
 :rhosp: http://www.redhat.com/openstack
 
 Introduction
@@ -36,7 +37,11 @@ Packaging workflow
 .RDO packaging workflow
 image::../images/rdo-workflow.jpg[link="images/rdo-workflow.jpg"]
 
-Currently all {rdo}[*RDO*] packaging resources are maintained in the Fedora
+
+Before RDO Liberty
+++++++++++++++++++
+
+All {rdo}[*RDO*] packaging resources are maintained in the Fedora
 <<dist-git,dist-git>> repositories. This includes support for all
 Fedora distros of course, but currently also caters for EL6 and EL7
 distros and derivatives. In future the EL resources may be separated
@@ -47,7 +52,7 @@ Currently there is a 1:1 mapping between Fedora and OpenStack releases.
 I.E. the OpenStack package versions that are provided through the
 official Fedora repositories are:
 
- * f23 / rawhide / master = Kilo
+ * f23 = Kilo
  * f22 = Juno
  * f21 = Icehouse
 
@@ -73,6 +78,21 @@ Fedora branches corresponding to each OpenStack release (`master`,
 `f21`, `f20`, ...) and EL6 and EL7 builds are done from those branches
 in https://copr.fedoraproject.org/coprs/jruzicka/[copr], as detailed
 below in <<rdo-pkg-guide,RDO Packaging Guide>>.
+
+
+RDO Liberty and later releases
+++++++++++++++++++++++++++++++
+
+Packaging resources for OpenStack services are now hosted in the
+{openstack-packages-org}[openstack-packages] github organization.
+
+The layout used for branches is:
+
+ * rpm-<master> = tracks upstream master branch (Delorean)
+ * rpm-<release> = tracks upstream stable/<release> branch (Delorean)
+ * rdo-<release> = based upon rpm-<release> and used to build RDO stable packages
+
+Clients and general-purpose libraries are still **included** in Fedora.
 
 
 [[dist-git]]
